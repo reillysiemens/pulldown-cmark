@@ -45,13 +45,20 @@ pub fn fresh_line(buf: &mut String) {
     }
 }
 
+fn start_tag<'a>(buf: &mut String, tag: Tag<'a>) {
+    buf.push_str("<pre><code>");
+}
+
+fn end_tag<'a>(buf: &mut String, tag: Tag<'a>) {
+    buf.push_str("</code></pre>\n");
+}
+
 impl<'a> IntoHtml<Context<'a>> for Event<'a> {
     fn render(self, ctx: &mut Context<'a>, buf: &mut String) {
         match self {
-            _ => (),
-            // Start(tag) => ctx.start_tag(buf, tag),
-            // End(tag) => ctx.end_tag(tag),
-            // Text(text) => escape_html(buf, &text, false),
+            Start(tag) => start_tag(buf, tag),
+            End(tag) => end_tag(buf, tag),
+            Text(text) => escape_html(buf, &text, false),
             // Html(html) |
             // InlineHtml(html) => buf.push_str(&html),
             // SoftBreak => buf.push('\n'),
@@ -65,6 +72,7 @@ impl<'a> IntoHtml<Context<'a>> for Event<'a> {
             //     buf.push_str(&*format!("{}", number));
             //     buf.push_str("</a></sup>");
             // },
+            _ => (),
         }
     }
 }
