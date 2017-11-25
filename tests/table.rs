@@ -3,7 +3,8 @@
 
 extern crate pulldown_cmark;
 
-
+#[cfg(unused)]
+mod unused {
     #[test]
     fn table_test_1() {
         let original = r##"Test header
@@ -26,6 +27,7 @@ extern crate pulldown_cmark;
         assert_eq!(expected, s);
     }
 
+    #[test]
     fn table_test_2() {
         let original = r##"Test|Table
 ----|-----
@@ -48,6 +50,7 @@ extern crate pulldown_cmark;
         assert_eq!(expected, s);
     }
 
+    #[test]
     fn table_test_3() {
         let original = r##"Test|Table
 ----|-----
@@ -77,6 +80,7 @@ Test ending
         assert_eq!(expected, s);
     }
 
+    #[test]
     fn table_test_4() {
         let original = r##"> Test  | Table
 > ------|------
@@ -108,6 +112,7 @@ Test ending
         assert_eq!(expected, s);
     }
 
+    #[test]
     fn table_test_5() {
         let original = r##" 1. First entry
  2. Second entry
@@ -145,6 +150,7 @@ Test ending
         assert_eq!(expected, s);
     }
 
+    #[test]
     fn table_test_6() {
         let original = r##"|Col 1|Col 2|
 |-----|-----|
@@ -171,6 +177,7 @@ Test ending
         assert_eq!(expected, s);
     }
 
+    #[test]
     fn table_test_7() {
         let original = r##"| Col 1 | Col 2 |
 |-------|-------|
@@ -197,6 +204,7 @@ Test ending
         assert_eq!(expected, s);
     }
 
+    #[test]
     fn table_test_8() {
         let original = r##"| Col 1 | Col 2 |
 |-------|-------|
@@ -223,6 +231,7 @@ Test ending
         assert_eq!(expected, s);
     }
 
+    #[test]
     fn table_test_9() {
         let original = r##"|Col 1|Col 2|
 |-----|-----|
@@ -249,6 +258,7 @@ Test ending
         assert_eq!(expected, s);
     }
 
+    #[test]
     fn table_test_10() {
         let original = r##"|  Target                       | std |rustc|cargo| notes                      |
 |-------------------------------|-----|-----|-----|----------------------------|
@@ -308,6 +318,7 @@ Test ending
         assert_eq!(expected, s);
     }
 
+    #[test]
     fn table_test_12() {
         let original = r##"|ぁ|ぃ|
 |-|-|
@@ -332,6 +343,7 @@ Test ending
         assert_eq!(expected, s);
     }
 
+    #[test]
     fn table_test_13() {
         let original = r##"|Колонка 1|Колонка 2|
 |---------|---------|
@@ -355,3 +367,4 @@ Test ending
 
         assert_eq!(expected, s);
     }
+}

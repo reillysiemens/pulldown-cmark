@@ -2,6 +2,8 @@
 
 extern crate pulldown_cmark;
 
+#[cfg(unused)]
+mod unused {
 #[test]
 fn html_test_1() {
     let original = r##"Little header
@@ -205,4 +207,5 @@ console.log("fooooo");
     html::push_html(&mut s, p);
 
     assert_eq!(expected, s);
+}
 }

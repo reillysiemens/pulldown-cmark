@@ -3,6 +3,8 @@
 
 extern crate pulldown_cmark;
 
+#[cfg(unused)]
+mod unused {
 
     #[test]
     fn footnotes_test_1() {
@@ -252,3 +254,4 @@ As such, we can guarantee that the non-childish forms of entertainment are proba
 
         assert_eq!(expected, s);
     }
+}

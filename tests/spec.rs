@@ -4,6 +4,8 @@
 extern crate pulldown_cmark;
 
 
+#[cfg(unused)]
+mod unused {
     #[test]
     fn spec_test_1() {
         let original = r##"	foo	baz		bim
@@ -15108,3 +15110,4 @@ baz</p>
 
         assert_eq!(expected, s);
     }
+}
