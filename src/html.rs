@@ -45,19 +45,40 @@ pub fn fresh_line(buf: &mut String) {
     }
 }
 
-fn start_tag<'a>(buf: &mut String, tag: Tag<'a>) {
+fn code_block<'a>(ctx: &mut Context<'a>, buf: &mut String, info: Cow<'a, str>) {
     buf.push_str("<pre><code>");
 }
 
-fn end_tag<'a>(buf: &mut String, tag: Tag<'a>) {
-    buf.push_str("</code></pre>\n");
+fn list<'a>(ctx: &mut Context<'a>, buf: &mut String, item_start: Option<usize>) {
+    buf.push_str("<ul>");
+}
+
+fn start_tag<'a>(ctx: &mut Context<'a>, buf: &mut String, tag: Tag<'a>) {
+    tag.render(ctx, buf);
+}
+
+fn end_tag<'a>(ctx: &mut Context<'a>, buf: &mut String, tag: Tag<'a>) {
+    tag.render(ctx, buf);
+}
+
+impl<'a> IntoHtml<Context<'a>> for Tag<'a> {
+    fn render(self, ctx: &mut Context<'a>, buf: &mut String) {
+        match self {
+            Tag::List(item_start) => list(ctx, buf, item_start),
+            Tag::Item => {},
+            Tag::Paragraph => {},
+            Tag::CodeBlock(info) => code_block(ctx, buf, info),
+            _ => {},
+        }
+    }
 }
 
 impl<'a> IntoHtml<Context<'a>> for Event<'a> {
     fn render(self, ctx: &mut Context<'a>, buf: &mut String) {
+        println!("{:?}", self);
         match self {
-            Start(tag) => start_tag(buf, tag),
-            End(tag) => end_tag(buf, tag),
+            Start(tag) => start_tag(ctx, buf, tag),
+            End(tag) => end_tag(ctx, buf, tag),
             Text(text) => escape_html(buf, &text, false),
             // Html(html) |
             // InlineHtml(html) => buf.push_str(&html),
@@ -82,6 +103,7 @@ pub struct Context<'a> {
     table_state: TableState,
     table_alignments: Vec<Alignment>,
     table_cell_index: usize,
+    nesting_stack: Vec<Tag<'a>>,
 }
 
 impl<'a> Context<'a> {
